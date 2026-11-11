@@ -47,8 +47,9 @@ English
 | Asset | Dimensions | Status | Filename |
 |-------|-----------|--------|----------|
 | Store Icon | 128×128 PNG | ✅ Ready | `icons/icon128.png` |
-| Screenshot 1 | 1280×800 | 🟡 Capture or generate | `assets/theater-split-preview.png` |
-| Screenshot 2 | 1280×800 | 🟡 Capture or generate | `assets/settings-popup.png` |
+| Screenshot 1 | Live YouTube Comments Split | ✅ Ready | `assets/preview-comments.jpg` |
+| Screenshot 2 | Live YouTube Up Next Switcher | ✅ Ready | `assets/preview-up-next.jpg` |
+| Screenshot 3 | Extension Settings Popup | ✅ Ready | `assets/settings-popup.png` |
 
 ## Permissions Justification
 

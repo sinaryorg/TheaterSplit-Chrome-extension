@@ -30,12 +30,21 @@
 
 <div align="center">
 
-### 🎬 Video Left + Sticky Comments Right
-*Native-feeling YouTube split layout with player bar toggle, `Comments` / `Up Next` tabs, and independent comments scroll.*
+### 💬 Video Left + Sticky Comments Right
+*Watch regular YouTube videos on the left while reading and scrolling comments in a native-styled right panel — toggled straight from the player bar.*
 
 <br>
 
-<img src="assets/theater-split-preview.png" alt="TheaterSplit Side-by-Side YouTube Layout Preview" width="90%">
+<img src="assets/preview-comments.jpg" alt="TheaterSplit Live YouTube Comments Split Preview" width="90%">
+
+<br><br>
+
+### 📺 Instant Comments / Up Next Switcher
+*Switch seamlessly between **Comments** and **Up Next** recommendations (including playlists & mixes) without leaving the video.*
+
+<br>
+
+<img src="assets/preview-up-next.jpg" alt="TheaterSplit Up Next Tab Preview" width="90%">
 
 <br><br>
 
