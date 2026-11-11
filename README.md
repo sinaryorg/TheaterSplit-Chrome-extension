@@ -20,7 +20,7 @@
 > [!NOTE]  
 > **YouTube-Only Scope**: TheaterSplit is built specifically for YouTube watch pages (`https://www.youtube.com/watch*`). It never runs on or reads any other website.
 
-[Previews](#-preview--screenshots) • [Features](#-key-features) • [Installation](#-installation--setup) • [Shortcuts & Usage](#-user-guide--shortcuts) • [Architecture](#-architecture--under-the-hood) • [Developer Guide](#-developer--contributor-guide) • [License](#-license--credits)
+[Previews](#-preview--screenshots) • [Features](#key-features) • [Installation](#-installation--setup) • [Shortcuts & Usage](#-user-guide--shortcuts) • [Architecture](#-architecture--under-the-hood) • [Developer Guide](#-developer--contributor-guide) • [License](#-license--credits)
 
 </div>
 
@@ -70,7 +70,7 @@ On live streams, YouTube places the video on the left and live chat on the right
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **🎛️ Native Player Bar Button**: Adds a split-screen toggle icon inside YouTube's bottom-right player bar right next to the Theater mode button.
 - **💬 Comments Header Quick Pill**: Adds a subtle **"Split beside video"** pill next to the comments count header when Split View is off.
