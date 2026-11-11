@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-sinary-yt-test="watch">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheaterSplit — Interactive YouTube Watch Page Test Harness</title>
+  <link rel="stylesheet" href="content.css">
+  <style>
+    :root {
+      --ytd-masthead-height: 56px;
+      --yt-spec-base-background: #0f0f0f;
+      --yt-spec-raised-background: #212121;
+      --yt-spec-additive-background: rgba(255, 255, 255, 0.08);
+      --yt-spec-badge-chip-background: rgba(255, 255, 255, 0.1);
+      --yt-spec-button-chip-background-hover: rgba(255, 255, 255, 0.2);
+      --yt-spec-10-percent-layer: rgba(255, 255, 255, 0.12);
+      --yt-spec-text-primary: #f1f1f1;
+      --yt-spec-text-secondary: #aaaaaa;
+      --yt-spec-text-disabled: rgba(144, 144, 144, 0.55);
+    }
+
+    html[data-theme="light"] {
+      --yt-spec-base-background: #ffffff;
+      --yt-spec-raised-background: #f8f8f8;
+      --yt-spec-additive-background: rgba(0, 0, 0, 0.06);
+      --yt-spec-badge-chip-background: rgba(0, 0, 0, 0.06);
+      --yt-spec-button-chip-background-hover: rgba(0, 0, 0, 0.12);
+      --yt-spec-10-percent-layer: rgba(0, 0, 0, 0.12);
+      --yt-spec-text-primary: #0f0f0f;
+      --yt-spec-text-secondary: #606060;
+      --yt-spec-text-disabled: rgba(96, 96, 96, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--yt-spec-base-background);
+      color: var(--yt-spec-text-primary);
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+    .masthead {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--ytd-masthead-height);
+      background: var(--yt-spec-base-background);
+      border-bottom: 1px solid var(--yt-spec-10-percent-layer);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .yt-badge {
+      background: #ff0033;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .test-btn {
+      border: 1px solid var(--yt-spec-10-percent-layer);
+      background: var(--yt-spec-badge-chip-background);
+      color: var(--yt-spec-text-primary);
+      padding: 6px 12px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .test-btn:hover {
+      background: var(--yt-spec-button-chip-background-hover);
+    }
+
+    ytd-watch-flexy {
+      display: block;
+    }
+
+    #columns {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    ytd-watch-flexy[theater] #columns {
+      flex-direction: column;
+    }
+
+    ytd-watch-flexy[theater] #player-container-outer {
+      max-width: 100%;
+    }
+
+    #primary {
+      flex: 1 1 0%;
+      min-width: 0;
+    }
+
+    #player-container-outer {
+      width: 100%;
+    }
+
+    #movie_player {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: radial-gradient(circle at 30% 25%, #1e293b 0%, #090d16 70%);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .player-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      text-align: center;
+      color: #f8fafc;
+    }
+
+    .player-time {
+      font-family: ui-monospace, monospace;
+      font-size: 30px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .player-caption {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .ytp-chrome-bottom {
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+      padding: 22px 14px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .ytp-left-controls,
+    .ytp-right-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ytp-button {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      opacity: 0.9;
+    }
+
+    .ytp-button:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .video-meta {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .video-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .video-desc {
+      background: var(--yt-spec-additive-background);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--yt-spec-text-secondary);
+    }
+
+    ytd-comments#comments {
+      display: block;
+      margin-top: 24px;
+    }
+
+    ytd-comments-header-renderer {
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    ytd-comments-header-renderer #title {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    ytd-comment-view-model {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .comment-body h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .comment-body p {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--yt-spec-text-primary);
+    }
+
+    .comment-body a {
+      color: #3ea6ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .comment-body a:hover {
+      text-decoration: underline;
+    }
+
+    #secondary {
+      width: 402px;
+      flex: 0 0 auto;
+    }
+
+    .related-card {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .related-thumb {
+      width: 150px;
+      height: 84px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--yt-spec-10-percent-layer);
+      flex-shrink: 0;
+    }
+
+    .related-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .related-meta {
+      font-size: 12px;
+      color: var(--yt-spec-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <span class="yt-badge">YT SIM</span>
+      <span>TheaterSplit Offline QA Playground</span>
+    </div>
+    <div class="toolbar-actions">
+      <button type="button" class="test-btn" id="toggleThemeBtn">Toggle Light/Dark</button>
+      <button type="button" class="test-btn" id="triggerAltSBtn">Simulate Alt+S</button>
+    </div>
+  </header>
+
+  <ytd-watch-flexy id="watchFlexy">
+    <div id="columns">
+      <div id="primary">
+        <div id="primary-inner">
+          <div id="player-container-outer">
+            <div id="movie_player">
+              <div class="player-stage">
+                <div class="player-time" id="playerTimeDisplay">00:00</div>
+                <div class="player-caption">Click any timestamp in the comments (e.g. 01:24 or 04:12) or toggle Split View from the player bar or Alt+S</div>
+              </div>
+              <div class="ytp-chrome-bottom">
+                <div class="ytp-left-controls">
+                  <span style="font-size:12px;opacity:0.8;">Mock YouTube Player</span>
+                </div>
+                <div class="ytp-right-controls">
+                  <button type="button" class="ytp-button ytp-size-button" id="nativeTheaterBtn" title="Theater mode (t)" aria-label="Theater mode">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-meta">
+            <h1 class="video-title">Building YouTube Theater Split View — Watch Video Left, Read Comments Right</h1>
+            <div class="video-desc">
+              Test environment simulating YouTube's <code>ytd-watch-flexy</code> DOM structure. Toggle Split View using the player control bar button, the "Split beside video" pill next to Comments, or press <kbd>Alt + S</kbd>.
+            </div>
+          </div>
+
+          <div id="below">
+            <ytd-comments id="comments">
+              <ytd-comments-header-renderer>
+                <div id="title">
+                  <span>18 Comments</span>
+                </div>
+              </ytd-comments-header-renderer>
+              <div class="comment-list" id="commentList"></div>
+            </ytd-comments>
+          </div>
+        </div>
+      </div>
+
+      <div id="secondary">
+        <div id="secondary-inner">
+          <div id="related">
+            <div class="related-card">
+              <div class="related-thumb"></div>
+              <div>
+                <div class="related-title">PeekLink — Hover Link Previews &amp; Native Split View</div>
+                <div class="related-meta">Sinary • 128K views</div>
+              </div>
+            </div>
+            <div class="related-card">
+              <div class="related-thumb"></div>
+              <div>
+                <div class="related-title">AutoBookmark — Floating Beveled Glass Bookmark Bar</div>
+                <div class="related-meta">Sinary • 94K views</div>
+              </div>
+            </div>
+            <div class="related-card">
+              <div class="related-thumb"></div>
+              <div>
+                <div class="related-title">Modern Web CSS Layouts &amp; Sticky Sidebars</div>
+                <div class="related-meta">Dev Channel • 410K views</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ytd-watch-flexy>
+
+  <script>
+    // Populate sample comments with clickable timestamps
+    const commentList = document.getElementById('commentList');
+    const samples = [
+      { user: '@sinary_dev', text: 'Jump to <a href="/watch?v=demo&t=84s">01:24</a> to see how the sticky comments panel aligns right beside the video!' },
+      { user: '@alex_ui', text: 'Being able to scroll comments without losing sight of the video player is a game changer.' },
+      { user: '@dev_maya', text: 'Timestamp test at <a href="/watch?v=demo&t=252s">04:12</a> — clicking it updates the player without snapping the page scroll back up.' },
+      { user: '@kiran_js', text: 'Love that it respects YouTube light and dark theme variables seamlessly.' },
+      { user: '@nora_ux', text: 'Switching between Comments and Up Next inside the right panel feels completely native.' },
+      { user: '@chris_builds', text: 'Check <a href="/watch?v=demo&t=470s">07:50</a> for keyboard shortcut details (Alt + S).' }
+    ];
+
+    for (let i = 0; i < 18; i++) {
+      const sample = samples[i % samples.length];
+      const item = document.createElement('ytd-comment-view-model');
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = sample.user.slice(1, 3).toUpperCase();
+
+      const body = document.createElement('div');
+      body.className = 'comment-body';
+      const h4 = document.createElement('h4');
+      h4.textContent = `${sample.user} • #${i + 1}`;
+      const p = document.createElement('p');
+      p.innerHTML = sample.text;
+      body.appendChild(h4);
+      body.appendChild(p);
+
+      item.appendChild(avatar);
+      item.appendChild(body);
+      commentList.appendChild(item);
+    }
+
+    const playerTime = document.getElementById('playerTimeDisplay');
+    document.getElementById('commentList').addEventListener('click', (e) => {
+      const link = e.target.closest('a[href*="t="]');
+      if (!link) return;
+      e.preventDefault();
+      const m = link.getAttribute('href').match(/t=(\d+)/);
+      if (m) {
+        const secs = parseInt(m[1], 10);
+        const mins = String(Math.floor(secs / 60)).padStart(2, '0');
+        const rem = String(secs % 60).padStart(2, '0');
+        playerTime.textContent = `${mins}:${rem}`;
+      }
+    });
+
+    document.getElementById('nativeTheaterBtn').addEventListener('click', () => {
+      const flexy = document.getElementById('watchFlexy');
+      flexy.toggleAttribute('theater');
+    });
+
+    document.getElementById('toggleThemeBtn').addEventListener('click', () => {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === 'light' ? 'dark' : 'light';
+    });
+
+    document.getElementById('triggerAltSBtn').addEventListener('click', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS', altKey: true, bubbles: true }));
+    });
+  </script>
+  <script src="content.js"></script>
+</body>
+</html>

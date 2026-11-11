@@ -1,0 +1,70 @@
+{
+  "manifest_version": 3,
+  "name": "TheaterSplit — by Sinary",
+  "short_name": "TheaterSplit",
+  "version": "1.0.0",
+  "description": "Watch YouTube videos on the left while reading and scrolling comments on the right in a native Theater Split View.",
+  "author": "sinary.org",
+  "homepage_url": "https://sinary.org",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "TheaterSplit Settings — by sinary.org",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "toggle-theater-split": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Alt+Shift+S"
+      },
+      "description": "Toggle YouTube Theater Split View"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*",
+        "sinary-logo.svg"
+      ],
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ]
+    }
+  ]
+}

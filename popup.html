@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheaterSplit — by Sinary</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-group">
+        <img src="icons/icon48.png" alt="TheaterSplit Logo" class="logo-icon">
+        <div>
+          <h1 class="title">TheaterSplit <span class="version-badge" id="headerVersionBadge">v1.0.0</span></h1>
+          <a href="https://sinary.org" target="_blank" rel="noopener noreferrer" class="sinary-badge" title="Developed by sinary.org">
+            <img src="icons/sinary-icon.png" class="sinary-badge-icon" alt="Sinary">
+            <span>by sinary.org</span>
+          </a>
+        </div>
+      </div>
+      <label class="switch-toggle" title="Enable / Disable TheaterSplit">
+        <input type="checkbox" id="enableToggle" checked aria-label="Enable TheaterSplit">
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <!-- Active Tab Status & Quick Action -->
+    <section class="status-card" aria-label="Current tab status">
+      <div class="status-text-wrap">
+        <div class="status-pill-row">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-title" id="statusTitle">Checking active tab...</span>
+        </div>
+        <p class="status-subtitle" id="statusSubtitle">YouTube Watch Page integration</p>
+      </div>
+      <button type="button" class="btn-primary" id="quickActionBtn" disabled>Toggle Split</button>
+    </section>
+
+    <!-- Shortcut Banner -->
+    <div class="shortcut-banner">
+      <div class="shortcut-info">
+        <span class="shortcut-label">Page</span>
+        <kbd class="key-badge">Alt+S</kbd>
+        <span class="shortcut-sep">•</span>
+        <span class="shortcut-label">Global</span>
+        <kbd class="key-badge">Alt+Shift+S</kbd>
+      </div>
+      <button type="button" class="btn-link-sm" id="configureShortcutBtn" title="Customize browser shortcut">Edit</button>
+    </div>
+
+    <!-- Accordion Settings -->
+    <main class="accordion-container">
+      <!-- 1. Split Behavior -->
+      <div class="accordion-item open" id="accBehavior">
+        <button type="button" class="accordion-header" aria-expanded="true" aria-controls="bodyBehavior">
+          <div class="accordion-header-left">
+            <svg class="accordion-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm12 14H5V5h10v14zm4 0h-2V5h2v14z"/>
+            </svg>
+            <span class="accordion-title">Split View Behavior</span>
+          </div>
+          <div class="accordion-header-right">
+            <span class="accordion-summary" id="sumBehavior">Comments • Auto</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+          </div>
+        </button>
+        <div class="accordion-body" id="bodyBehavior">
+          <div class="setting-item">
+            <span class="setting-label">Default Right Panel Tab</span>
+            <div class="select-pill-group" id="defaultTabGroup" role="group" aria-label="Default right panel tab">
+              <button type="button" class="pill-btn active" data-val="comments">Comments</button>
+              <button type="button" class="pill-btn" data-val="related">Up Next</button>
+            </div>
+            <span class="setting-hint">Initial tab selected when Split View opens</span>
+          </div>
+
+          <div class="setting-toggle-row">
+            <div>
+              <span class="setting-title">Remember Split Mode</span>
+              <span class="setting-hint">Keep Split View open across regular videos</span>
+            </div>
+            <label class="switch-toggle-sm">
+              <input type="checkbox" id="rememberSplitToggle" checked aria-label="Remember Split Mode">
+              <span class="slider-sm"></span>
+            </label>
+          </div>
+
+          <div class="setting-toggle-row">
+            <div>
+              <span class="setting-title">Skip Active Live Streams</span>
+              <span class="setting-hint">Preserve YouTube Live Chat sidebar automatically</span>
+            </div>
+            <label class="switch-toggle-sm">
+              <input type="checkbox" id="skipLiveToggle" checked aria-label="Skip Active Live Streams">
+              <span class="slider-sm"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Layout & Controls -->
+      <div class="accordion-item" id="accControls">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="bodyControls">
+          <div class="accordion-header-left">
+            <svg class="accordion-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+            </svg>
+            <span class="accordion-title">Layout & Controls</span>
+          </div>
+          <div class="accordion-header-right">
+            <span class="accordion-summary" id="sumControls">420px</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+          </div>
+        </button>
+        <div class="accordion-body" id="bodyControls">
+          <div class="setting-item">
+            <div class="setting-label-row">
+              <label for="sidebarWidthSlider">Comments Panel Width</label>
+              <span class="val-badge" id="valSidebarWidth">420px</span>
+            </div>
+            <input type="range" id="sidebarWidthSlider" min="340" max="560" step="10" value="420" class="range-slider">
+            <span class="setting-hint">Adjusts the right-hand comments &amp; Up Next column</span>
+          </div>
+
+          <div class="setting-toggle-row">
+            <div>
+              <span class="setting-title">Player Control Bar Button</span>
+              <span class="setting-hint">Show Split View icon beside Theater mode</span>
+            </div>
+            <label class="switch-toggle-sm">
+              <input type="checkbox" id="showPlayerButtonToggle" checked aria-label="Show Player Control Bar Button">
+              <span class="slider-sm"></span>
+            </label>
+          </div>
+
+          <div class="setting-toggle-row">
+            <div>
+              <span class="setting-title">Comments Header Quick Pill</span>
+              <span class="setting-hint">Show "Split beside video" pill above comments</span>
+            </div>
+            <label class="switch-toggle-sm">
+              <input type="checkbox" id="showInlinePillToggle" checked aria-label="Show Comments Header Quick Pill">
+              <span class="slider-sm"></span>
+            </label>
+          </div>
+
+          <div class="setting-toggle-row">
+            <div>
+              <span class="setting-title">In-Page Alt + S Shortcut</span>
+              <span class="setting-hint">Toggle Split View directly on YouTube watch pages</span>
+            </div>
+            <label class="switch-toggle-sm">
+              <input type="checkbox" id="enableAltSToggle" checked aria-label="Enable Alt plus S shortcut">
+              <span class="slider-sm"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="https://sinary.org" target="_blank" rel="noopener noreferrer" class="footer-link">sinary.org</a>
+      <span class="footer-dot">•</span>
+      <button type="button" class="footer-btn" id="resetDefaultsBtn">Reset Defaults</button>
+      <span class="footer-dot">•</span>
+      <a href="https://github.com/sinaryorg/TheaterSplit---Chrome-extension" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
